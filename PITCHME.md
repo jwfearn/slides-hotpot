@@ -3,18 +3,54 @@
 #### John Fearnside
 #### jfearnside@avvo.com
 ---
-Can we move executable code between Elixir nodes?
+How can we move executable code between Elixir nodes?
 ---
-## Distributed Features Overview
-- [global registry](http://erlang.org/doc/man/global.html)
-- PIDs
+## Executable Elixir
+- Elixir code runs on the Erlang virtual machine (aka, the BEAM)
+- Elixir is compiled to binary form
+- Elixir/Erlang has APIs for working with binary code
+- Erlang APIs callable from Elixir
 ---
-## Erlang VMs Are Nodes
+## Binary Code APIs
+- `:code.get_object_code` - get binary from module
+- `:code.load_binary` - get module from binary
+- `:erlang.term_to_binary` - difference between term and module?
+- `:erlang.binary_to_term`
+---
+## Distributed Elixir
+- Elixir code runs on the Erlang VM
+- Each VM is a _node_
+- Nodes can communicate with each other over the _global_ network
+---
+## Distributed APIs
+- PIDs are _global_ (they include node info!)
+- Messages are _global_ too!
+- IEx `--name`, `--cookie` options
+- `:global.register_name`
+- `:global.whereis_name`
+---
+## Implementation: Hotpot
+- Short for "Hot Potato"
+- Include in your app, be a leader or a follower
+- Leaders can `distribute` modules
+- Followers receive module
 ---
 ## Demo
 ---
+## Hotpot Modules
+- LiveStart - handles loading and saving binary files
+- Hotpot - manages processes
+- Leader - sends `:load` messages, has state: follower pids
+- Follower - receives `:load` messages
+---
+## Code Walk-through
+---
 ## Q & A
-
+---
+## Resources
+Slides: https://gitpitch.com/jwfearn/slides-hotpot
+Library: https://github.com/jwfearn/hotpot
+Samples: https://github.com/jwfearn/hotpot_samples
 
 <!--
 # TODO
