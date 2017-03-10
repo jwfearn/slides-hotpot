@@ -12,17 +12,20 @@ Can we move code between Elixir nodes?
 - Elixir is compiled to binary form
 - Elixir/Erlang has APIs for working with binary code
 - Erlang APIs are callable from Elixir
+
 ---
 ## Binary Code APIs
 - `:code.get_object_code` - code to binary rep
 - `:code.load_binary` - code from binary rep
 - `:erlang.term_to_binary` - serialization
 - `:erlang.binary_to_term` - de-serialization
+
 ---
 ## Distributed Elixir
 - Elixir code runs on the Erlang VM
 - Each VM is a _node_
 - Nodes can communicate over the _global_ network
+
 ---
 ## Distributed APIs
 - PIDs are _global_ (they include node info!)
@@ -31,27 +34,32 @@ Can we move code between Elixir nodes?
 - `:global.whereis_name`
 - IEx `--name`, `--cookie` options
 - `Node.start`, `Node.set_cookie`
+
 ---
 ## Implementation: Hotpot
 - Short for "Hot Potato"
 - Include in your app, be a leader or a follower
 - Leaders can `distribute` modules
 - Followers receive modules
+
 ---
 ## Demo
 ---
 ## Hotpot Modules
-- LiveStart
 - Hotpot
+- LiveStart
 - Leader
 - Follower
+
 ---
 ## LiveStart
 - handles loading and saving binary files
 - uses `term_to_binary` & `binary_to_term`
+
 ---
 ## Hotpot
 - manages and supervises processes
+
 ---
 ## Leader
 - has state (GenServer): follower pids
@@ -63,6 +71,7 @@ Can we move code between Elixir nodes?
 - receives `:load` messages
 - caches modules to files for restarting
 - uses `load_binary` to load module
+
 ---
 ## Code Walk-through
 ---
