@@ -3,19 +3,21 @@
 #### John Fearnside
 #### jfearnside@avvo.com
 ---
-How can we move executable code between Elixir nodes?
+Exploring distributed Elixir
+---
+Can we move code between Elixir nodes?
 ---
 ## Executable Elixir
-- Elixir code runs on the Erlang virtual machine (aka, the BEAM)
+- Elixir code runs on the Erlang VM (aka "the BEAM")
 - Elixir is compiled to binary form
 - Elixir/Erlang has APIs for working with binary code
-- Erlang APIs callable from Elixir
+- Erlang APIs are callable from Elixir
 ---
 ## Binary Code APIs
-- `:code.get_object_code` - get binary from module
+- `:code.get_object_code` - binary from module
 - `:code.load_binary` - get module from binary
-- `:erlang.term_to_binary` - difference between term and module?
-- `:erlang.binary_to_term`
+- `:erlang.term_to_binary` - code to file format
+- `:erlang.binary_to_term` - code from file format
 ---
 ## Distributed Elixir
 - Elixir code runs on the Erlang VM
@@ -24,7 +26,7 @@ How can we move executable code between Elixir nodes?
 ---
 ## Distributed APIs
 - PIDs are _global_ (they include node info!)
-- Messages are _global_ too!
+- Ergo: messages are _global_ too!
 - IEx `--name`, `--cookie` options
 - `:global.register_name`
 - `:global.whereis_name`
@@ -40,8 +42,14 @@ How can we move executable code between Elixir nodes?
 ## Hotpot Modules
 - LiveStart - handles loading and saving binary files
 - Hotpot - manages processes
-- Leader - sends `:load` messages, has state: follower pids
-- Follower - receives `:load` messages
+- Leader
+  - has state (GenServer): follower pids
+  - can `distribute` modules
+  - sends `:load` messages to followers
+- Follower
+  - receives `:load` messages
+  - loads received modules
+  - caches modules to files
 ---
 ## Code Walk-through
 ---
@@ -49,7 +57,9 @@ How can we move executable code between Elixir nodes?
 ---
 ## Resources
 Slides: https://gitpitch.com/jwfearn/slides-hotpot
+
 Library: https://github.com/jwfearn/hotpot
+
 Samples: https://github.com/jwfearn/hotpot_samples
 
 <!--
