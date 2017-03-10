@@ -14,8 +14,8 @@ Can we move code between Elixir nodes?
 - Erlang APIs are callable from Elixir
 ---
 ## Binary Code APIs
-- `:code.get_object_code` - binary from module
-- `:code.load_binary` - get module from binary
+- `:code.get_object_code` - code to memory format
+- `:code.load_binary` - code from memory format
 - `:erlang.term_to_binary` - code to file format
 - `:erlang.binary_to_term` - code from file format
 ---
